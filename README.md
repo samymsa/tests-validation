@@ -89,7 +89,7 @@ grille = new char[3, 3]
 ```
 
 ##### Switch statements
- 
+
 Comme mentionné précédemment, le code contient de nombreux `switch` imbriqués qui contiennent eux-mêmes des `if`. Cela rend le code difficile à comprendre et à maintenir.
 
 ```csharp
@@ -118,11 +118,19 @@ public void tourJoueur()
 ##### Autres
 
 - Le français se mélange à l'anglais dans le code :
+
   ```csharp
   while (!quiterJeu && !moved)
   ```
 
 - Les méthodes `verifEgalite` et `verifVictoire` n'utilisent pas de boucles mais une combinaison gigantesque de `&&` et de `||` pour vérifier les conditions de victoire ou d'égalité.
+
+- La classe `Program` contient des instructions `goto`, ce qui est considéré comme une mauvaise pratique et peut rendre difficile le débogage du code :
+
+  ```csharp
+  default:
+      goto GetKey;
+  ```
 
 - Comme dit plus haut, les entrées proviennent systématiquement de la console. Il n'y a pas de paramètres pour les méthodes, ce qui va nécessiter de modifier le code pour pouvoir écrire des tests unitaires.
 
