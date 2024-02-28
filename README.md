@@ -140,11 +140,11 @@ public void tourJoueur()
 
 Avant de pouvoir mettre en place des tests automatisés, il va falloir refactoriser le code pour le rendre plus maintenable et testable. Nous allons essayer de supprimer un maximum de code smells et de violations des principes SOLID.
 
-Dans un premier temps, nous allons supprimer la duplication de code en créant une classe abstraite `BaseGame` que les classes `Morpion` et `PuissanceQuatre` vont étendre.
+Dans un premier temps, nous allons réduire la complexité cyclomatique des méthodes, en les découpant en méthodes plus petites et plus cohésives.
 
-Ensuite, nous allons introduire des abstractions pour l'interaction utilisateur, afin de rendre le code plus flexible et conforme au principe d'inversion de dépendance.
+Ensuite, nous allons supprimer la duplication de code en créant une classe abstraite `BaseGame` que les classes `Morpion` et `PuissanceQuatre` vont étendre.
 
-Enfin, nous allons essayer de réduire la complexité cyclomatique des méthodes, en les découpant en méthodes plus petites et plus cohésives.
+Enfin, nous allons introduire des abstractions pour l'interaction utilisateur, afin de rendre le code plus flexible et conforme au principe d'inversion de dépendance.
 
 ### 2. Mise en place de tests automatisés
 
