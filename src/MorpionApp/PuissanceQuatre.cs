@@ -1,33 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MorpionApp
+﻿namespace MorpionApp
 {
     public class PuissanceQuatre
     {
+        const int WIDTH = 7;
+        const int HEIGHT = 4;
         public bool quiterJeu = false;
         public bool tourDuJoueur = true;
         public char[,] grille;
 
         public PuissanceQuatre()
         {
-            grille = new char[4, 7];
+            grille = new char[WIDTH, HEIGHT];
+            ResetGrille();
+        }
+
+        private void ResetGrille()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    grille[i, j] = ' ';
+                }
+            }
         }
 
         public void BoucleJeu()
         {
             while (!quiterJeu)
             {
-                grille = new char[4, 7]
-                {
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                    { ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                };
+                ResetGrille();
                 while (!quiterJeu)
                 {
                     if (tourDuJoueur)
@@ -96,7 +98,7 @@ namespace MorpionApp
                         break;
 
                     case ConsoleKey.RightArrow:
-                        if (column >= 6)
+                        if (column >= WIDTH - 1)
                         {
                             column = 0;
                         }
@@ -109,7 +111,7 @@ namespace MorpionApp
                     case ConsoleKey.LeftArrow:
                         if (column <= 0)
                         {
-                            column = 6;
+                            column = WIDTH - 1;
                         }
                         else
                         {
@@ -117,36 +119,8 @@ namespace MorpionApp
                         }
                         break;
 
-                    //case ConsoleKey.UpArrow:
-                    //    if (row <= 0)
-                    //    {
-                    //        row = 3;
-                    //    }
-                    //    else
-                    //    {
-                    //        row = row - 1;
-                    //    }
-                    //    break;
-
-                    //case ConsoleKey.DownArrow:
-                    //    if (row >= 3)
-                    //    {
-                    //        row = 0;
-                    //    }
-                    //    else
-                    //    {
-                    //        row = row + 1;
-                    //    }
-                    //    break;
                     case ConsoleKey.Enter:
-                        while (row <= 3)
-                        {
-                            row = row + 1;
-                            if (row >= 3)
-                            {
-                                break;
-                            }
-                        }
+                        row = HEIGHT - 1;
                         while (grille[row, column] is 'X' or 'O')
                         {
                             if (row == 0)
@@ -189,7 +163,7 @@ namespace MorpionApp
                         break;
 
                     case ConsoleKey.RightArrow:
-                        if (column >= 6)
+                        if (column >= WIDTH - 1)
                         {
                             column = 0;
                         }
@@ -202,7 +176,7 @@ namespace MorpionApp
                     case ConsoleKey.LeftArrow:
                         if (column <= 0)
                         {
-                            column = 6;
+                            column = WIDTH - 1;
                         }
                         else
                         {
@@ -210,36 +184,8 @@ namespace MorpionApp
                         }
                         break;
 
-                    //case ConsoleKey.UpArrow:
-                    //    if (row <= 0)
-                    //    {
-                    //        row = 3;
-                    //    }
-                    //    else
-                    //    {
-                    //        row = row - 1;
-                    //    }
-                    //    break;
-
-                    //case ConsoleKey.DownArrow:
-                    //    if (row >= 3)
-                    //    {
-                    //        row = 0;
-                    //    }
-                    //    else
-                    //    {
-                    //        row = row + 1;
-                    //    }
-                    //    break;
                     case ConsoleKey.Enter:
-                        while (row <= 3)
-                        {
-                            row = row + 1;
-                            if (row >= 3)
-                            {
-                                break;
-                            }
-                        }
+                        row = HEIGHT - 1;
                         while (grille[row, column] is 'X' or 'O')
                         {
                             if(row == 0)

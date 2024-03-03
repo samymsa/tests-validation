@@ -1,32 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MorpionApp
+﻿namespace MorpionApp
 {
     public class Morpion
     {
+        const int WIDTH = 3;
+        const int HEIGHT = 3;
         public bool quiterJeu = false;
         public bool tourDuJoueur = true;
         public char[,] grille;
 
         public Morpion()
         {
-            grille = new char[3, 3];
+            grille = new char[WIDTH, HEIGHT];
+            ResetGrille();
+        }
+
+        private void ResetGrille()
+        {
+            for (int i = 0; i < WIDTH; i++)
+            {
+                for (int j = 0; j < HEIGHT; j++)
+                {
+                    grille[i, j] = ' ';
+                }
+            }
         }
 
         public void BoucleJeu()
         {
             while (!quiterJeu)
             {
-                grille = new char[3, 3]
-                {
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                    { ' ', ' ', ' '},
-                };
+                ResetGrille();
                 while (!quiterJeu)
                 {
                     if (tourDuJoueur)
@@ -95,7 +98,7 @@ namespace MorpionApp
                         break;
 
                     case ConsoleKey.RightArrow:
-                        if (column >= 2)
+                        if (column >= WIDTH - 1)
                         {
                             column = 0;
                         }
@@ -108,7 +111,7 @@ namespace MorpionApp
                     case ConsoleKey.LeftArrow:
                         if (column <= 0)
                         {
-                            column = 2;
+                            column = WIDTH - 1;
                         }
                         else
                         {
@@ -119,7 +122,7 @@ namespace MorpionApp
                     case ConsoleKey.UpArrow:
                         if (row <= 0)
                         {
-                            row = 2;
+                            row = HEIGHT - 1;
                         }
                         else
                         {
@@ -171,7 +174,7 @@ namespace MorpionApp
                         break;
 
                     case ConsoleKey.RightArrow:
-                        if (column >= 2)
+                        if (column >= WIDTH - 1)
                         {
                             column = 0;
                         }
@@ -184,7 +187,7 @@ namespace MorpionApp
                     case ConsoleKey.LeftArrow:
                         if (column <= 0)
                         {
-                            column = 2;
+                            column = WIDTH - 1;
                         }
                         else
                         {
@@ -195,7 +198,7 @@ namespace MorpionApp
                     case ConsoleKey.UpArrow:
                         if (row <= 0)
                         {
-                            row = 2;
+                            row = HEIGHT - 1;
                         }
                         else
                         {
@@ -204,7 +207,7 @@ namespace MorpionApp
                         break;
 
                     case ConsoleKey.DownArrow:
-                        if (row >= 2)
+                        if (row >= HEIGHT - 1)
                         {
                             row = 0;
                         }
