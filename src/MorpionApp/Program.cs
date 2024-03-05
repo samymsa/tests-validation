@@ -2,49 +2,46 @@
 {
     public class Program
     {
-        static void Main(string[] args)
+        private static ConsoleKey GetInput(ConsoleKey[] keys, string message)
         {
-            Console.WriteLine("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4.");
-        GetKey:
-            switch (Console.ReadKey(true).Key)
+            ConsoleKey key;
+            do
             {
-                case ConsoleKey.X:
-                    Morpion morpion = new Morpion();
-                    morpion.MainLoop();
-                    break;
-                case ConsoleKey.P:
-                    PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                    puissanceQuatre.MainLoop();
-                    break;
-                default:
-                    goto GetKey;
-            }
-            Console.WriteLine("Jouer à un autre jeu ? Taper [R] pour changer de jeu. Taper [Echap] pour quitter.");
-        GetKey1:
-            switch (Console.ReadKey(true).Key)
+                Console.WriteLine(message);
+                key = Console.ReadKey(true).Key;
+            } while (!keys.Contains(key));
+            return key;
+        }
+
+
+        public static void Main(string[] args)
+        {
+            while (true)
             {
-                case ConsoleKey.R:
-                    Console.WriteLine("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4.");
-                GetKey2:
-                    switch (Console.ReadKey(true).Key)
-                    {
-                        case ConsoleKey.X:
-                            Morpion morpion = new Morpion();
-                            morpion.MainLoop();
-                            break;
-                        case ConsoleKey.P:
-                            PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                            puissanceQuatre.MainLoop();
-                            break;
-                        default:
-                            goto GetKey2;
-                    }
-                    break;
-                case ConsoleKey.Escape:
-                    break;
-                default:
-                    goto GetKey1;
+                ConsoleKey key = GetInput([ConsoleKey.X, ConsoleKey.P, ConsoleKey.Escape], "Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4 ou [Echap] pour quitter.");
+                switch (key)
+                {
+                    case ConsoleKey.X:
+                        Morpion morpion = new Morpion();
+                        morpion.MainLoop();
+                        break;
+                    case ConsoleKey.P:
+                        PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
+                        puissanceQuatre.MainLoop();
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
+
+                key = GetInput([ConsoleKey.R, ConsoleKey.Escape], "Jouer à un autre jeu ? Taper [R] pour changer de jeu. Taper [Echap] pour quitter.");
+                switch (key)
+                {
+                    case ConsoleKey.R:
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
             }
-        }        
+        }
     }
 }
