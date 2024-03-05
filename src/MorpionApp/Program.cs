@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MorpionApp
+﻿namespace MorpionApp
 {
     public class Program
     {
@@ -16,11 +10,11 @@ namespace MorpionApp
             {
                 case ConsoleKey.X:
                     Morpion morpion = new Morpion();
-                    morpion.BoucleJeu();
+                    morpion.MainLoop();
                     break;
                 case ConsoleKey.P:
                     PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                    puissanceQuatre.BoucleJeu();
+                    puissanceQuatre.MainLoop();
                     break;
                 default:
                     goto GetKey;
@@ -36,11 +30,11 @@ namespace MorpionApp
                     {
                         case ConsoleKey.X:
                             Morpion morpion = new Morpion();
-                            morpion.BoucleJeu();
+                            morpion.MainLoop();
                             break;
                         case ConsoleKey.P:
                             PuissanceQuatre puissanceQuatre = new PuissanceQuatre();
-                            puissanceQuatre.BoucleJeu();
+                            puissanceQuatre.MainLoop();
                             break;
                         default:
                             goto GetKey2;
