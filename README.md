@@ -2,7 +2,7 @@
 
 ## Credits
 
-Merci à [Zedo9](https://github.com/Zedo9) pour son projet [TDD-ed TicTacToe](https://github.com/Zedo9/tdd-tictactoe) qui m'a inspiré pour la refactorisation et la mise en place des tests unitaires. 
+Merci à [Zedo9](https://github.com/Zedo9) pour son projet [TDD-ed TicTacToe](https://github.com/Zedo9/tdd-tictactoe) qui m'a inspiré pour la refactorisation et la mise en place des tests unitaires.
 
 ## I. Les difficultés liées à la validation
 
@@ -140,15 +140,21 @@ public void tourJoueur()
 
 ## II. Les méthodes de résolution de ces problèmes
 
+### 0. Mise à jour de .NET
+
+La première chose que nous allons faire tant que c'est encore simple, c'est de passer de .NET 6 à .NET 8. Cela va nous permettre de réduire la dette technique et de bénéficier des dernières fonctionnalités de C#.
+
 ### 1. Refactorisation du code
 
-Avant de pouvoir mettre en place des tests automatisés, il va falloir refactoriser le code pour le rendre plus maintenable et testable. Nous allons essayer de supprimer un maximum de code smells et de violations des principes SOLID.
+Avant de pouvoir mettre en place des tests automatisés, il va falloir refactoriser le code pour le rendre plus maintenable et testable. En effet, le code actuel est très dépandant de la console et les méthodes ne prennent pour la plupart pas de paramètres, ce qui rend difficile l'écriture de tests unitaires.
+
+Nous allons donc essayer de simplifier le code tout en supprimant un maximum de code smells et de violations des principes SOLID.
 
 Dans un premier temps, nous allons réduire la complexité cyclomatique des méthodes, en les découpant en méthodes plus petites et plus cohésives.
 
-Ensuite, nous allons supprimer la duplication de code en créant une classe abstraite `BaseGame` que les classes `Morpion` et `PuissanceQuatre` vont étendre.
+Ensuite, nous allons supprimer la duplication de code en créant une classe abstraite `BoardGame` que les classes `Morpion` et `PuissanceQuatre` vont étendre.
 
-Enfin, nous allons introduire des abstractions pour l'interaction utilisateur, afin de rendre le code plus flexible et conforme au principe d'inversion de dépendance.
+Enfin, nous allons mettre en place de l'injection de dépendances avec pour objectif de supprimer cet héritage et de favoriser la composition, ce qui va réduire le couplage et rendre le code plus extensible.
 
 ### 2. Mise en place de tests automatisés
 
