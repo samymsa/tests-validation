@@ -94,19 +94,9 @@ class Board
         return antiDiagonal.ToArray();
     }
 
-    public Cell[][] GetDiagonals(Position position)
-    {
-        return [GetDiagonal(position), GetAntiDiagonal(position)];
-    }
-
     public Cell[] GetUnoccupiedCells()
     {
         return Cells.Cast<Cell>().Where(cell => !cell.IsOccupied()).ToArray();
-    }
-
-    public Position[] GetUnoccupiedPositions()
-    {
-        return GetUnoccupiedCells().Select(cell => cell.Position).ToArray();
     }
 
     public bool IsOccupied(Position position)
@@ -129,12 +119,6 @@ class Board
     {
         CheckPosition(position);
         GetCell(position).SetPiece(piece);
-    }
-
-    public void RemovePiece(Position position)
-    {
-        CheckPosition(position);
-        GetCell(position).RemovePiece();
     }
 
     public void RemoveAllPieces()

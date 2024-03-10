@@ -1,18 +1,7 @@
-class Cell
+class Cell(Position position)
 {
-    public Position Position { get; }
+    public Position Position { get; } = position;
     public Piece? Piece { get; private set; }
-
-    public Cell(Position position)
-    {
-        Position = position;
-    }
-
-    public Cell(Position position, Piece piece)
-    {
-        Position = position;
-        Piece = piece;
-    }
 
     public void SetPiece(Piece piece)
     {
