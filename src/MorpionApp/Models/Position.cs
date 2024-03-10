@@ -12,4 +12,13 @@ public class Position
         Row = row;
         Column = column;
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is Position position)
+        {
+            return Row == position.Row && Column == position.Column;
+        }
+        return false;
+    }
 }
