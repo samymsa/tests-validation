@@ -1,5 +1,9 @@
 # Séance 2 : La reprise d’un projet Legacy
 
+## Credits
+
+Merci à [Zedo9](https://github.com/Zedo9) pour son projet [TDD-ed TicTacToe](https://github.com/Zedo9/tdd-tictactoe) qui m'a inspiré pour la refactorisation et la mise en place des tests unitaires. 
+
 ## I. Les difficultés liées à la validation
 
 Bien que le jeu soit relativement fonctionnel, les choix de design du prestataire initial vont poser des problèmes pour la validation du projet. En effet, le code fourni ne respecte pas les principes SOLID et contient de nombreux code smells. Par conséquent, il est difficilement maintenable et testable. Automatiser les tests va donc être un réel défi et nécessitera des modifications du code.
