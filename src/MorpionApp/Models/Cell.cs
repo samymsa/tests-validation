@@ -1,4 +1,6 @@
-class Cell(Position position)
+namespace MorpionApp.Models;
+
+public class Cell(Position position)
 {
     public Position Position { get; } = position;
     public Piece? Piece { get; private set; }

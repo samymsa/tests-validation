@@ -1,4 +1,8 @@
-abstract class BoardGame(int rows, int columns, int XToWin = 3)
+using MorpionApp.Models;
+
+namespace MorpionApp.Games;
+
+public abstract class BoardGame(int rows, int columns, int XToWin = 3)
 {
     const int CELL_WIDTH = 5;
     const int CELL_HEIGHT = 3;

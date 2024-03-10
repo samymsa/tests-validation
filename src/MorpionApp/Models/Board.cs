@@ -1,4 +1,6 @@
-class Board
+namespace MorpionApp.Models;
+
+public class Board
 {
     public Cell[,] Cells { get; }
     public int RowsCount { get; }

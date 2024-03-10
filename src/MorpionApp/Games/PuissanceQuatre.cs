@@ -1,4 +1,8 @@
-﻿class PuissanceQuatre : BoardGame
+﻿using MorpionApp.Models;
+
+namespace MorpionApp.Games;
+
+public class PuissanceQuatre : BoardGame
 {
     public PuissanceQuatre() : base(6, 7, 4)
     {

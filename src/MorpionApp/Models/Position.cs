@@ -1,4 +1,6 @@
-class Position
+namespace MorpionApp.Models;
+
+public class Position
 {
     public int Row { get; }
     public int Column { get; }
