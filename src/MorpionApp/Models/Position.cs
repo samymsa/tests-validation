@@ -21,4 +21,9 @@ public class Position
         }
         return false;
     }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Row, Column);
+    }
 }
