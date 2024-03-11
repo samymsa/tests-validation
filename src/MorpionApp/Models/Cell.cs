@@ -9,7 +9,7 @@ public class Cell(Position position)
     {
         if (IsOccupied())
         {
-            throw new InvalidOperationException("Cell is already occupied");
+            throw new InvalidOperationException("La cellule est déjà occupée.");
         }
         Piece = piece;
     }

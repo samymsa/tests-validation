@@ -49,12 +49,12 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
             HandleInput(GetInput());
             if (CheckWin(player, lastPlayedPosition))
             {
-                EndGame($"Player {player.Piece} won !");
+                EndGame($"Le joueur {player.Piece} a gagné !");
                 return;
             }
             if (CheckDraw())
             {
-                EndGame("No winner, the game ends in a draw.");
+                EndGame("Aucun vainqueur, la partie se termine sur une égalité.");
                 return;
             }
         }
@@ -63,7 +63,7 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
 
     public void AskForInput()
     {
-        Console.WriteLine("Choose a valid cell and press [Enter]");
+        Console.WriteLine("Choisir une case valide est appuyer sur [Entrer]");
     }
 
     public ConsoleKey AskForRestart()
@@ -71,7 +71,7 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
         ConsoleKey key;
         do
         {
-            Console.WriteLine("Press [Escape] to quit, [Enter] to play again.");
+            Console.WriteLine("Appuyer sur [Echap] pour quitter, [Entrer] pour rejouer.");
             key = Console.ReadKey(true).Key;
         }
         while (key != ConsoleKey.Enter && key != ConsoleKey.Escape);
