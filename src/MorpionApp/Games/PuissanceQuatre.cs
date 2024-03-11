@@ -1,10 +1,11 @@
-﻿using MorpionApp.Models;
+﻿using MorpionApp.GameOutcomeResolver;
+using MorpionApp.Models;
 
 namespace MorpionApp.Games;
 
 public class PuissanceQuatre : BoardGame
 {
-    public PuissanceQuatre() : base(6, 7, 4)
+    public PuissanceQuatre() : base(6, 7, new XInARowWins(4))
     {
     }
 

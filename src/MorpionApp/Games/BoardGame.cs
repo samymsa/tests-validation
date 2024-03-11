@@ -1,8 +1,9 @@
+using MorpionApp.GameOutcomeResolver;
 using MorpionApp.Models;
 
 namespace MorpionApp.Games;
 
-public abstract class BoardGame(int rows, int columns, int XToWin = 3)
+public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver)
 {
     const int CELL_WIDTH = 5;
     const int CELL_HEIGHT = 3;
@@ -11,13 +12,13 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
     protected int column = 0;
     protected Position lastPlayedPosition = new(0, 0);
 
-    public int XToWin { get; } = XToWin;
     public int Rows { get; } = rows;
     public int Columns { get; } = columns;
     public Board Board { get; } = new(rows, columns);
     public List<Player> Players { get; } = [new Player(Piece.X), new Player(Piece.O)];
     public int CurrentPlayerIndex { get; protected set; } = 0;
     public Player CurrentPlayer => Players[CurrentPlayerIndex];
+    protected IGameOutcomeResolver GameOutcomeResolver { get; } = gameOutcomeResolver;
 
     public void MainLoop()
     {
@@ -47,18 +48,30 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
             AskForInput();
             UpdateCursorPosition();
             HandleInput(GetInput());
-            if (CheckWin(player, lastPlayedPosition))
-            {
-                EndGame($"Le joueur {player.Piece} a gagné !");
-                return;
-            }
-            if (CheckDraw())
-            {
-                EndGame("Aucun vainqueur, la partie se termine sur une égalité.");
-                return;
-            }
+            HandleOutcome(GetOutcome(), player);
         }
-        DisplayBoard();
+    }
+
+    private GameOutcome GetOutcome()
+    {
+        return GameOutcomeResolver.Resolve(Board, lastPlayedPosition);
+    }
+
+    private void HandleOutcome(GameOutcome gameOutcome, Player lastPlayer)
+    {
+        switch (gameOutcome)
+        {
+            case GameOutcome.Win:
+                EndGame($"Le joueur {lastPlayer.Piece} a gagné !");
+                quit = true;
+                break;
+            case GameOutcome.Draw:
+                EndGame("Aucun vainqueur, la partie se termine sur une égalité.");
+                quit = true;
+                break;
+            default:
+                break;
+        }
     }
 
     public void AskForInput()
@@ -162,64 +175,6 @@ public abstract class BoardGame(int rows, int columns, int XToWin = 3)
     public ConsoleKey GetInput()
     {
         return Console.ReadKey(true).Key;
-    }
-
-    public bool CheckWin(Player player, Position position)
-    {
-        return CheckRowWin(player, position)
-            || CheckColumnWin(player, position)
-            || CheckDiagonalWin(player, position)
-            || CheckAntiDiagonalWin(player, position);
-    }
-
-    private bool CheckRowWin(Player player, Position position)
-    {
-        Cell[] row = Board.GetRow(position.Row);
-        return XInARow(row, player.Piece);
-    }
-
-    private bool CheckColumnWin(Player player, Position position)
-    {
-        Cell[] column = Board.GetColumn(position.Column);
-        return XInARow(column, player.Piece);
-    }
-
-    private bool CheckDiagonalWin(Player player, Position position)
-    {
-        Cell[] diagonal = Board.GetDiagonal(position);
-        return XInARow(diagonal, player.Piece);
-    }
-
-    private bool CheckAntiDiagonalWin(Player player, Position position)
-    {
-        Cell[] antiDiagonal = Board.GetAntiDiagonal(position);
-        return XInARow(antiDiagonal, player.Piece);
-    }
-
-    private bool XInARow(Cell[] cells, Piece piece)
-    {
-        int count = 0;
-        foreach (Cell cell in cells)
-        {
-            if (cell.Piece != piece)
-            {
-                count = 0;
-                continue;
-            }
-
-            count++;
-            if (count == XToWin)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool CheckDraw()
-    {
-        return Board.IsFull();
     }
 
     public void EndGame(string message)
