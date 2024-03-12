@@ -163,3 +163,23 @@ Pour valider le bon fonctionnement du jeu, il va falloir mettre en place des tes
 ### 3. Correction de bugs eventuels
 
 Une fois les tests automatisés en place, il sera plus facile d'identifier et de corriger les éventuels bugs dans le code. En cas de bugs, nous allons les corriger et mettre à jour si besoin les tests automatisés.
+
+## III. Le développement des fonctionnalités manquantes
+
+### 1. Brancher un joueur contrôlé par l'ordinateur
+
+Pour brancher un joueur contrôlé par l'ordinateur, nous allons injecter une dépendance `IPlayerStrategy` (design pattern Strategy) dans la classe `Player`. Cette dépendance va permettre de déléguer la logique de jeu à une stratégie spécifique, par exemple :
+-  `HumanPlayerStrategy` qui va demander à l'utilisateur de choisir une position
+-  `AIPlayerStrategy` qui va choisir une position aléatoire
+
+De cette manière, il sera d'une part plus facile de tester la logique de jeu, et d'autre part plus facile d'ajouter de nouvelles stratégies de jeu.
+
+### 2. Historisation et persistance
+
+Pour l'historisation et la persistance, nous allons injecter une dépendance `IGameSerializer` dans la classe `BoardGame`. Cette dépendance va permettre de sérialiser et désérialiser une partie, par exemple :
+-  `JSONGameSerializer` qui va sérialiser la partie en JSON
+
+La partie sera sauvegardée automatiquement à chaque tour, et sera être chargée au démarrage du jeu.
+Il y aura une sauvegarde par type de jeu.
+
+En utilisant l'injection de dépendances, il sera plus facile de tester cette fonctionnalité et d'ajouter de nouveaux formats de sauvegarde.
