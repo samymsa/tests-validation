@@ -8,7 +8,7 @@ namespace MorpionApp.Games;
 
 public class PuissanceQuatre : BoardGame
 {
-    public PuissanceQuatre() : base(6, 7, new XInARowWins(4), new ConsoleUI(), new RoundRobin())
+    public PuissanceQuatre() : base(new Board(6, 7), new XInARowWins(4), new ConsoleUI(), new RoundRobin())
     {
     }
 

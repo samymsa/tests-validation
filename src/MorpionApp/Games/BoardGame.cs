@@ -7,16 +7,20 @@ using MorpionApp.UI;
 
 namespace MorpionApp.Games;
 
-public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver, IUserInterface ui, INextPlayerStrategy nextPlayerStrategy)
+public abstract class BoardGame(
+    Board board,
+    IGameOutcomeResolver gameOutcomeResolver,
+    IUserInterface ui,
+    INextPlayerStrategy nextPlayerStrategy)
 {
     protected bool Quit = false;
-    public Board Board { get; } = new(rows, columns);
-    public List<Player> Players { get; } = [
+    protected readonly Board Board = board;
+    private List<Player> Players { get; } = [
         new Player(Piece.X, new HumanPlayerStrategy(ui)),
         new Player(Piece.O, new AIPlayerStrategy())
     ];
-    public int CurrentPlayerIndex { get; protected set; } = 0;
-    public Player CurrentPlayer => Players[CurrentPlayerIndex];
+    private int CurrentPlayerIndex = 0;
+    private Player CurrentPlayer => Players[CurrentPlayerIndex];
     protected IGameOutcomeResolver GameOutcomeResolver { get; } = gameOutcomeResolver;
     protected IUserInterface UI { get; } = ui;
     protected INextPlayerStrategy NextPlayerStrategy { get; } = nextPlayerStrategy;
@@ -34,12 +38,12 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
         }
     }
 
-    public void Reset()
+    private void Reset()
     {
         Board.RemoveAllPieces();
     }
 
-    public void GameLoop()
+    private void GameLoop()
     {
         while (!Quit)
         {
