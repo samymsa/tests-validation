@@ -2,14 +2,14 @@ using MorpionApp.Models.Player.Strategy;
 
 namespace MorpionApp.Models.Player;
 
-public class Player(Piece piece, IPlayerStrategy playStrategy) : IPlayer
+public class Player(Piece piece, IPlayerStrategy playerStrategy)
 {
     public Piece Piece { get; } = piece;
 
-    public IPlayerStrategy PlayStrategy { get; set; } = playStrategy;
+    private readonly IPlayerStrategy PlayerStrategy = playerStrategy;
 
     public Position GetNextMove(Board board, Cell[] validCells)
     {
-        return PlayStrategy.GetNextMove(board, validCells);
+        return PlayerStrategy.GetNextMove(board, validCells);
     }
 }
