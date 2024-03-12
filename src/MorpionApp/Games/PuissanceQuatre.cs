@@ -1,5 +1,6 @@
 ﻿using MorpionApp.GameOutcomeResolver;
 using MorpionApp.Models;
+using MorpionApp.Models.Player;
 
 namespace MorpionApp.Games;
 
@@ -9,40 +10,17 @@ public class PuissanceQuatre : BoardGame
     {
     }
 
-    public override void HandleEnterKey()
+    protected override Position? GetNextMove(Player player)
     {
-        for (int row = Rows - 1; row >= 0; row--)
+        Position nextMove = player.GetNextMove(Board);
+        for (int row = Board.RowsCount - 1; row >= 0; row--)
         {
-            Position position = new(row, column);
+            Position position = new(row, nextMove.Column);
             if (!Board.IsOccupied(position))
             {
-                Board.SetPiece(position, CurrentPlayer.Piece);
-                lastPlayedPosition = position;
-                CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Count;
-                break;
+                return position;
             }
         }
+        return null;
     }
-
-    public override void HandleInput(ConsoleKey key)
-    {
-        switch (key)
-        {
-            case ConsoleKey.LeftArrow:
-                MoveCursorLeft();
-                break;
-            case ConsoleKey.RightArrow:
-                MoveCursorRight();
-                break;
-            case ConsoleKey.Enter:
-                HandleEnterKey();
-                break;
-            case ConsoleKey.Escape:
-                HandleEscapeKey();
-                break;
-            default:
-                break;
-        }
-    }
-
 }
