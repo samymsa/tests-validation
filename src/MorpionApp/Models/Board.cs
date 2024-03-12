@@ -56,17 +56,10 @@ public class Board
     {
         CheckPosition(position);
         List<Cell> diagonal = [];
+        Position topLeft = GoTopLeft(position);
+        int row = topLeft.Row;
+        int column = topLeft.Column;
 
-        // Find the top-left cell of the diagonal starting from the given position.
-        int row = position.Row;
-        int column = position.Column;
-        while (row > 0 && column > 0)
-        {
-            row--;
-            column--;
-        }
-
-        // Go downards and rightwards until the end of the board.
         while (row < RowsCount && column < ColumnsCount)
         {
             diagonal.Add(GetCell(new Position(row, column)));
@@ -74,32 +67,50 @@ public class Board
             column++;
         }
 
-        return diagonal.ToArray();
+        return [.. diagonal];
     }
+
 
     public Cell[] GetAntiDiagonal(Position position)
     {
         CheckPosition(position);
         List<Cell> antiDiagonal = [];
+        Position topRight = GoTopRight(position);
+        int row = topRight.Row;
+        int column = topRight.Column;
 
-        // Find the top-right cell of the anti-diagonal starting from the given position.
-        int row = position.Row;
-        int column = position.Column;
+        while (row < RowsCount && column >= 0)
+        {
+            antiDiagonal.Add(GetCell(new(row, column)));
+            row++;
+            column--;
+        }
+
+        return [.. antiDiagonal];
+    }
+
+    private Position GoTopLeft(Position startingPosition)
+    {
+        int row = startingPosition.Row;
+        int column = startingPosition.Column;
+        while (row > 0 && column > 0)
+        {
+            row--;
+            column--;
+        }
+        return new(row, column);
+    }
+
+    private Position GoTopRight(Position startingPosition)
+    {
+        int row = startingPosition.Row;
+        int column = startingPosition.Column;
         while (row > 0 && column < ColumnsCount - 1)
         {
             row--;
             column++;
         }
-
-        // Go downards and leftwards until the end of the board.
-        while (row < RowsCount && column >= 0)
-        {
-            antiDiagonal.Add(GetCell(new Position(row, column)));
-            row++;
-            column--;
-        }
-
-        return antiDiagonal.ToArray();
+        return new(row, column);
     }
 
     public Cell[] GetUnoccupiedCells()
