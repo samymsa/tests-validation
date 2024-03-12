@@ -8,8 +8,8 @@ public class Player(Piece piece, IPlayerStrategy playStrategy) : IPlayer
 
     public IPlayerStrategy PlayStrategy { get; set; } = playStrategy;
 
-    public Position GetNextMove(Board board)
+    public Position GetNextMove(Board board, Cell[] validCells)
     {
-        return PlayStrategy.GetNextMove(board, Piece);
+        return PlayStrategy.GetNextMove(board, validCells);
     }
 }

@@ -10,7 +10,7 @@ public class ConsoleUI : IUserInterface
     private int CursorRow = 0;
     private int CursorColumn = 0;
 
-    public Position AskForPosition(Board board)
+    public Position AskForPosition(Board board, Cell[] validCells)
     {
         Position? position;
         do
@@ -20,7 +20,7 @@ public class ConsoleUI : IUserInterface
             UpdateCursorPosition();
             ConsoleKey key = Console.ReadKey(true).Key;
             position = HandleKey(board, key);
-        } while (position is null || board.IsOccupied(position));
+        } while (position is null || !validCells.Contains(board.GetCell(position)));
         return position;
     }
 
@@ -88,7 +88,7 @@ public class ConsoleUI : IUserInterface
     public void DisplayDraw()
     {
         DisplayMessage("Aucun vainqueur, la partie se termine sur une égalité.");
-        
+
     }
 
     public void DisplayWin(Player player)

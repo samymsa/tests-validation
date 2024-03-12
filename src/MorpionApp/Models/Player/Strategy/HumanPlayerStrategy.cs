@@ -6,8 +6,8 @@ public class HumanPlayerStrategy(IUserInterface ui) : IPlayerStrategy
 {
     private IUserInterface UI { get; } = ui;
 
-    public Position GetNextMove(Board board, Piece piece)
+    public Position GetNextMove(Board board, Cell[] validCells)
     {
-        return UI.AskForPosition(board);
+        return UI.AskForPosition(board, validCells);
     }
 }

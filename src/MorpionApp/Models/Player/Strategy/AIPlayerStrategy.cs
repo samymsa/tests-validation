@@ -2,7 +2,7 @@ namespace MorpionApp.Models.Player.Strategy;
 
 public class AIPlayerStrategy : IPlayerStrategy
 {
-    public Position GetNextMove(Board board, Piece piece)
+    public Position GetNextMove(Board board, Cell[] validCells)
     {
         var random = new Random();
         Cell[] unoccupiedCells = board.GetUnoccupiedCells();

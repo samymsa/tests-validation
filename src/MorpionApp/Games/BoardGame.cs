@@ -62,7 +62,7 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
 
     protected virtual Position GetNextMove(Player player)
     {
-        return player.GetNextMove(Board);
+        return player.GetNextMove(Board, Board.GetUnoccupiedCells());
     }
 
     private Position Play(Position position, Player player)

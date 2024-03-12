@@ -14,7 +14,7 @@ public class PuissanceQuatre : BoardGame
 
     protected override Position GetNextMove(Player player)
     {
-        Position nextMove = player.GetNextMove(Board);
+        Position nextMove = player.GetNextMove(Board, Board.GetUnoccupiedCells());
         for (int row = Board.RowsCount - 1; row >= 0; row--)
         {
             Position position = new(row, nextMove.Column);
