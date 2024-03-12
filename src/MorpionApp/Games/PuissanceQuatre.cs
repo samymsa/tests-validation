@@ -1,13 +1,14 @@
 ﻿using MorpionApp.GameOutcomeResolver;
 using MorpionApp.Models;
 using MorpionApp.Models.Player;
+using MorpionApp.NextPlayerStrategy;
 using MorpionApp.UI;
 
 namespace MorpionApp.Games;
 
 public class PuissanceQuatre : BoardGame
 {
-    public PuissanceQuatre() : base(6, 7, new XInARowWins(4), new ConsoleUI())
+    public PuissanceQuatre() : base(6, 7, new XInARowWins(4), new ConsoleUI(), new RoundRobin())
     {
     }
 

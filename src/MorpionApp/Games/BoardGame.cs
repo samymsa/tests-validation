@@ -2,11 +2,12 @@ using MorpionApp.GameOutcomeResolver;
 using MorpionApp.Models;
 using MorpionApp.Models.Player;
 using MorpionApp.Models.Player.Strategy;
+using MorpionApp.NextPlayerStrategy;
 using MorpionApp.UI;
 
 namespace MorpionApp.Games;
 
-public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver, IUserInterface ui)
+public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver, IUserInterface ui, INextPlayerStrategy nextPlayerStrategy)
 {
     protected bool quit = false;
     protected Position lastPlayedPosition = new(0, 0);
@@ -19,6 +20,7 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
     public Player CurrentPlayer => Players[CurrentPlayerIndex];
     protected IGameOutcomeResolver GameOutcomeResolver { get; } = gameOutcomeResolver;
     protected IUserInterface UI { get; } = ui;
+    protected INextPlayerStrategy NextPlayerStrategy { get; } = nextPlayerStrategy;
 
     public void MainLoop()
     {
@@ -44,9 +46,14 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
         {
             Player player = CurrentPlayer;
             lastPlayedPosition = PlayNextMove(player);
-            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Count;
+            NextPlayer();
             HandleOutcome(GetOutcome(), player);
         }
+    }
+
+    private void NextPlayer()
+    {
+        CurrentPlayerIndex = NextPlayerStrategy.GetNextPlayer(Players, CurrentPlayerIndex);
     }
 
     private Position Play(Position position, Player player)
