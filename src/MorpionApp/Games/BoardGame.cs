@@ -12,8 +12,8 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
     protected Position lastPlayedPosition = new(0, 0);
     public Board Board { get; } = new(rows, columns);
     public List<Player> Players { get; } = [
-        new Player(Piece.O, new HumanPlayerStrategy(ui)),
-        new Player(Piece.X, new AIPlayerStrategy())
+        new Player(Piece.X, new HumanPlayerStrategy(ui)),
+        new Player(Piece.O, new AIPlayerStrategy())
     ];
     public int CurrentPlayerIndex { get; protected set; } = 0;
     public Player CurrentPlayer => Players[CurrentPlayerIndex];
