@@ -2,7 +2,7 @@ namespace MorpionApp.Models;
 
 public class Board
 {
-    public Cell[,] Cells { get; }
+    private Cell[,] Cells { get; }
     public int RowsCount { get; }
     public int ColumnsCount { get; }
 

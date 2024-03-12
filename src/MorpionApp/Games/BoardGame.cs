@@ -9,8 +9,7 @@ namespace MorpionApp.Games;
 
 public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver, IUserInterface ui, INextPlayerStrategy nextPlayerStrategy)
 {
-    protected bool quit = false;
-    protected Position lastPlayedPosition = new(0, 0);
+    protected bool Quit = false;
     public Board Board { get; } = new(rows, columns);
     public List<Player> Players { get; } = [
         new Player(Piece.X, new HumanPlayerStrategy(ui)),
@@ -24,30 +23,29 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
 
     public void MainLoop()
     {
-        while (!quit)
+        while (!Quit)
         {
-            RemoveAllPieces();
+            Reset();
             GameLoop();
             if (UI.AskForReplay())
             {
-                quit = false;
+                Quit = false;
             }
         }
     }
 
-    public void RemoveAllPieces()
+    public void Reset()
     {
         Board.RemoveAllPieces();
     }
 
     public void GameLoop()
     {
-        while (!quit)
+        while (!Quit)
         {
-            Player player = CurrentPlayer;
-            lastPlayedPosition = PlayNextMove(player);
+            Position lastPlayedPosition = PlayNextMove();
+            HandleOutcome(GetOutcome(lastPlayedPosition));
             NextPlayer();
-            HandleOutcome(GetOutcome(), player);
         }
     }
 
@@ -56,44 +54,41 @@ public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver game
         CurrentPlayerIndex = NextPlayerStrategy.GetNextPlayer(Players, CurrentPlayerIndex);
     }
 
+    private Position PlayNextMove()
+    {
+        Position position = GetNextMove(CurrentPlayer);
+        return Play(position, CurrentPlayer);
+    }
+
+    protected virtual Position GetNextMove(Player player)
+    {
+        return player.GetNextMove(Board);
+    }
+
     private Position Play(Position position, Player player)
     {
         Board.SetPiece(position, player.Piece);
         return position;
     }
 
-    protected virtual Position? GetNextMove(Player player)
-    {
-        return player.GetNextMove(Board);
-    }
-
-    private Position PlayNextMove(Player player)
-    {
-        Position position = GetNextMove(player) ?? throw new InvalidOperationException("No valid move found.");
-        return Play(position, player);
-    }
-
-    private GameOutcome GetOutcome()
+    private GameOutcome GetOutcome(Position lastPlayedPosition)
     {
         return GameOutcomeResolver.Resolve(Board, lastPlayedPosition);
     }
 
-    private void HandleOutcome(GameOutcome gameOutcome, Player lastPlayer)
+    private void HandleOutcome(GameOutcome gameOutcome)
     {
-        switch (gameOutcome)
+        if (gameOutcome == GameOutcome.InProgress) return;
+
+        UI.DisplayBoard(Board);
+        Quit = true;
+
+        if (gameOutcome == GameOutcome.Win)
         {
-            case GameOutcome.Win:
-                UI.DisplayBoard(Board);
-                UI.DisplayWin(lastPlayer);
-                quit = true;
-                break;
-            case GameOutcome.Draw:
-                UI.DisplayBoard(Board);
-                UI.DisplayDraw();
-                quit = true;
-                break;
-            default:
-                break;
+            UI.DisplayWin(CurrentPlayer);
+            return;
         }
+
+        UI.DisplayDraw();
     }
 }

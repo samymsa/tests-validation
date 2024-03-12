@@ -12,7 +12,7 @@ public class PuissanceQuatre : BoardGame
     {
     }
 
-    protected override Position? GetNextMove(Player player)
+    protected override Position GetNextMove(Player player)
     {
         Position nextMove = player.GetNextMove(Board);
         for (int row = Board.RowsCount - 1; row >= 0; row--)
@@ -23,6 +23,6 @@ public class PuissanceQuatre : BoardGame
                 return position;
             }
         }
-        return null;
+        return nextMove;
     }
 }
