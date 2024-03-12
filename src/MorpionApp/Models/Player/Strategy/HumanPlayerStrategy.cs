@@ -2,9 +2,9 @@ using MorpionApp.UI;
 
 namespace MorpionApp.Models.Player.Strategy;
 
-public class HumanPlayerStrategy(ConsoleUI ui) : IPlayerStrategy
+public class HumanPlayerStrategy(IUserInterface ui) : IPlayerStrategy
 {
-    private ConsoleUI UI { get; } = ui;
+    private IUserInterface UI { get; } = ui;
 
     public Position GetNextMove(Board board, Piece piece)
     {

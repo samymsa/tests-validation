@@ -6,16 +6,19 @@ using MorpionApp.UI;
 
 namespace MorpionApp.Games;
 
-public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver)
+public abstract class BoardGame(int rows, int columns, IGameOutcomeResolver gameOutcomeResolver, IUserInterface ui)
 {
     protected bool quit = false;
     protected Position lastPlayedPosition = new(0, 0);
     public Board Board { get; } = new(rows, columns);
-    public List<Player> Players { get; } = [new Player(Piece.X, new AIPlayerStrategy()), new Player(Piece.O, new HumanPlayerStrategy(new ConsoleUI()))];
+    public List<Player> Players { get; } = [
+        new Player(Piece.O, new HumanPlayerStrategy(ui)),
+        new Player(Piece.X, new AIPlayerStrategy())
+    ];
     public int CurrentPlayerIndex { get; protected set; } = 0;
     public Player CurrentPlayer => Players[CurrentPlayerIndex];
     protected IGameOutcomeResolver GameOutcomeResolver { get; } = gameOutcomeResolver;
-    protected ConsoleUI UI { get; } = new ConsoleUI();
+    protected IUserInterface UI { get; } = ui;
 
     public void MainLoop()
     {
