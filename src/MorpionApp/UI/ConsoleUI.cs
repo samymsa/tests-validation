@@ -1,3 +1,4 @@
+using MorpionApp.Games;
 using MorpionApp.Models;
 using MorpionApp.Models.Player;
 
@@ -73,16 +74,43 @@ public class ConsoleUI : IUserInterface
         Console.SetCursorPosition(CursorColumn * (CELL_WIDTH + 1) + CELL_WIDTH / 2, CursorRow * (CELL_HEIGHT + 1) + CELL_HEIGHT / 2);
     }
 
-    public bool AskForReplay()
+    public Type? AskForGameType()
     {
         ConsoleKey key;
         do
         {
-            DisplayMessage("Appuyer sur [Echap] pour quitter, [Entrer] pour rejouer.");
+            DisplayMessage("Jouer à quel jeu ? Taper [X] pour le morpion et [P] pour le puissance 4 ou [Echap] pour quitter.");
             key = Console.ReadKey(true).Key;
         }
-        while (key != ConsoleKey.Enter && key != ConsoleKey.Escape);
-        return key == ConsoleKey.Enter;
+        while (key != ConsoleKey.X && key != ConsoleKey.P && key != ConsoleKey.Escape);
+        return key switch
+        {
+            ConsoleKey.X => typeof(Morpion),
+            ConsoleKey.P => typeof(PuissanceQuatre),
+            _ => null
+        };
+    }
+
+    public bool AskForReplay()
+    {
+        return AskForBool("Appuyer sur [Echap] pour quitter, [Entrer] pour rejouer.", ConsoleKey.Enter, ConsoleKey.Escape);
+    }
+
+    public bool AskForAnotherGame()
+    {
+        return AskForBool("Jouer à un autre jeu ? Taper [R] pour changer de jeu. Taper [Echap] pour quitter.", ConsoleKey.R, ConsoleKey.Escape);
+    }
+
+    private bool AskForBool(string message, ConsoleKey yesKey = ConsoleKey.Y, ConsoleKey noKey = ConsoleKey.N)
+    {
+        ConsoleKey key;
+        do
+        {
+            DisplayMessage(message);
+            key = Console.ReadKey(true).Key;
+        }
+        while (key != yesKey && key != noKey);
+        return key == yesKey;
     }
 
     public void DisplayDraw()
