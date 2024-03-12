@@ -1,4 +1,5 @@
 using MorpionApp.GameOutcomeResolver;
+using MorpionApp.GameSerializer;
 using MorpionApp.Models;
 using MorpionApp.Models.Player;
 using MorpionApp.Models.Player.Strategy;
@@ -13,27 +14,43 @@ public class BoardGame(
     IGameOutcomeResolver gameOutcomeResolver,
     IUserInterface ui,
     INextPlayerStrategy nextPlayerStrategy,
-    INextMoveStrategy nextMoveStrategy)
+    INextMoveStrategy nextMoveStrategy,
+    IGameSerializer gameSerializer,
+    string savePath = "saves/game.save")
 {
-    protected bool Quit = false;
-    protected readonly Board Board = board;
-    private List<Player> Players { get; } = [
+    private readonly string SavePath = savePath;
+    private bool Quit = false;
+    public Board Board { get; set; } = board;
+    public List<Player> Players { get; } = [
         new Player(Piece.X, new HumanPlayerStrategy(ui)),
         new Player(Piece.O, new AIPlayerStrategy())
     ];
-    private int CurrentPlayerIndex = 0;
+    public int CurrentPlayerIndex { get; set; } = 0;
     private Player CurrentPlayer => Players[CurrentPlayerIndex];
-    protected IGameOutcomeResolver GameOutcomeResolver { get; } = gameOutcomeResolver;
-    protected IUserInterface UI { get; } = ui;
-    protected INextPlayerStrategy NextPlayerStrategy { get; } = nextPlayerStrategy;
-    protected INextMoveStrategy NextMoveStrategy { get; } = nextMoveStrategy;
+    private readonly IGameOutcomeResolver GameOutcomeResolver = gameOutcomeResolver;
+    private readonly IUserInterface UI = ui;
+    private readonly INextPlayerStrategy NextPlayerStrategy = nextPlayerStrategy;
+    private readonly INextMoveStrategy NextMoveStrategy = nextMoveStrategy;
+    private readonly IGameSerializer GameSerializer = gameSerializer;
+
+    // Default constructor is needed for deserialization
+    public BoardGame() : this(
+        new Board(3, 3),
+        new XInARowWins(3),
+        new ConsoleUI(),
+        new RoundRobin(),
+        new UnoccupiedStrategy(),
+        new JSONGameSerializer())
+    { }
 
     public void MainLoop()
     {
+        Load();
         while (!Quit)
         {
-            Reset();
             GameLoop();
+            Reset();
+            Save();
             if (UI.AskForReplay())
             {
                 Quit = false;
@@ -53,6 +70,7 @@ public class BoardGame(
             Position lastPlayedPosition = PlayNextMove();
             HandleOutcome(GetOutcome(lastPlayedPosition));
             NextPlayer();
+            Save();
         }
     }
 
@@ -67,7 +85,7 @@ public class BoardGame(
         return Play(position, CurrentPlayer);
     }
 
-    protected virtual Position GetNextMove(Player player)
+    private Position GetNextMove(Player player)
     {
         return NextMoveStrategy.GetNextMove(player, Board);
     }
@@ -97,5 +115,16 @@ public class BoardGame(
         }
 
         UI.DisplayDraw();
+    }
+
+    private void Save()
+    {
+        GameSerializer.Save(SavePath, this);
+    }
+
+    private void Load()
+    {
+        if (!File.Exists(SavePath)) return;
+        GameSerializer.Load(SavePath, this);
     }
 }

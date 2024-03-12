@@ -1,9 +1,9 @@
 namespace MorpionApp.Models;
 
-public class Cell(Position position)
+public class Cell(Position position, Piece? piece = null)
 {
-    public Position Position { get; } = position;
-    public Piece? Piece { get; private set; }
+    public Position Position { get; set; } = position;
+    public Piece? Piece { get; set; } = piece;
 
     public void SetPiece(Piece piece)
     {

@@ -2,9 +2,9 @@ namespace MorpionApp.Models;
 
 public class Board
 {
-    private Cell[,] Cells { get; }
-    public int RowsCount { get; }
-    public int ColumnsCount { get; }
+    public Cell[][] Cells { get; set; }
+    public int RowsCount { get; set; }
+    public int ColumnsCount { get; set; }
 
     public Board(int rowsCount, int columnsCount)
     {
@@ -12,12 +12,18 @@ public class Board
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(columnsCount);
         RowsCount = rowsCount;
         ColumnsCount = columnsCount;
-        Cells = new Cell[rowsCount, columnsCount];
+        Cells = new Cell[RowsCount][];
+        InitializeCells();
+    }
+
+    private void InitializeCells()
+    {
         for (int row = 0; row < RowsCount; row++)
         {
+            Cells[row] = new Cell[ColumnsCount];
             for (int column = 0; column < ColumnsCount; column++)
             {
-                Cells[row, column] = new Cell(new Position(row, column));
+                Cells[row][column] = new Cell(new(row, column));
             }
         }
     }
@@ -31,7 +37,7 @@ public class Board
     public Cell GetCell(Position position)
     {
         CheckPosition(position);
-        return Cells[position.Row, position.Column];
+        return Cells[position.Row][position.Column];
     }
 
     public Cell[] GetRow(int row)
@@ -98,7 +104,7 @@ public class Board
 
     public Cell[] GetUnoccupiedCells()
     {
-        return Cells.Cast<Cell>().Where(cell => !cell.IsOccupied()).ToArray();
+        return Cells.SelectMany(row => row).Where(cell => !cell.IsOccupied()).ToArray();
     }
 
     public bool IsOccupied(Position position)
@@ -125,9 +131,6 @@ public class Board
 
     public void RemoveAllPieces()
     {
-        foreach (var cell in Cells)
-        {
-            cell.RemovePiece();
-        }
+        Cells.SelectMany(row => row).ToList().ForEach(cell => cell.RemovePiece());
     }
 }
