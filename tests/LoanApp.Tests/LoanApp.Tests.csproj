@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MorpionApp\MorpionApp.csproj" />
+    <ProjectReference Include="..\..\src\LoanApp\LoanApp.csproj" />
   </ItemGroup>
 
 </Project>
