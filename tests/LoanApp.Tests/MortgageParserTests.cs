@@ -51,7 +51,7 @@ public class MortgageParserTests
     [InlineData("--principal", "50000")]
     [InlineData("--term", "108")]
     [InlineData("--rate", "3.5")]
-    [InlineData()]
+    [InlineData("")]
     public void ParseArgs_MissingArgs_ReturnsNonZero(params string[] args)
     {
         MortgageParser parser = new();
