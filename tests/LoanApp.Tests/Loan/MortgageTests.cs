@@ -1,7 +1,7 @@
 using LoanApp.InterestRateStrategy;
 using LoanApp.Loan;
 
-namespace LoanApp.Tests;
+namespace LoanApp.Tests.Loan;
 
 public class MortgageTests
 {

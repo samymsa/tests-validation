@@ -1,4 +1,4 @@
-namespace LoanApp.Tests;
+namespace LoanApp.Tests.LoanParser;
 
 using LoanApp.LoanParser;
 
