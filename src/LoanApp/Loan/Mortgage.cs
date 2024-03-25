@@ -1,6 +1,6 @@
 using LoanApp.InterestRateStrategy;
 
-namespace LoanApp;
+namespace LoanApp.Loan;
 
 public class Mortgage
 {

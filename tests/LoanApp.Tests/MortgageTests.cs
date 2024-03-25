@@ -1,4 +1,5 @@
 using LoanApp.InterestRateStrategy;
+using LoanApp.Loan;
 
 namespace LoanApp.Tests;
 
