@@ -32,22 +32,6 @@ public class MortgageTests
         Assert.Equal("term", exception.ParamName);
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(-1)]
-    [InlineData(109)]
-    public void GetMonthlyPayment_InvalidMonth_ThrowsArgumentOutOfRangeException(int month)
-    {
-        Mortgage mortgage = new(100000, 108, new DummyInterestRate());
-        void act()
-        {
-            _ = mortgage.GetMonthlyPayment(month);
-        }
-
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-        Assert.Equal("month", exception.ParamName);
-    }
-
     [Fact]
     public void Rate_FixedInterestRate_ReturnsFixedRate()
     {

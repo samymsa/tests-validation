@@ -17,12 +17,4 @@ public class Mortgage
         Term = term;
         RateStrategy = rateStrategy;
     }
-
-    public decimal GetMonthlyPayment(int month)
-    {
-        ArgumentOutOfRangeException.ThrowIfLessThan(month, 1);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(month, Term);
-
-        return 0;
-    }
 }
