@@ -1,0 +1,10 @@
+@startuml
+class MortgageParser {
+    + Principal : decimal <<get>>
+    + Term : int <<get>>
+    + Rate : decimal <<get>>
+    + Output : string? <<get>>
+    + MortgageParser()
+    + ParseArgs(args:string[]) : int
+}
+@enduml

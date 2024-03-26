@@ -1,0 +1,9 @@
+@startuml
+class Mortgage {
+    + Principal : decimal <<get>>
+    + Term : int <<get>>
+    + Rate : decimal <<get>>
+    + Mortgage(principal:decimal, term:int, rateStrategy:IInterestRateStrategy)
+}
+ILoan <|-- Mortgage
+@enduml

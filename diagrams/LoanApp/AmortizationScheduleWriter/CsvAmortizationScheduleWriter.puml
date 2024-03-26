@@ -1,0 +1,6 @@
+@startuml
+class CsvAmortizationScheduleWriter {
+    + CsvAmortizationScheduleWriter(writer:TextWriter, calculator:IMonthlyPaymentCalculator)
+    + WriteAmortizationSchedule(loan:ILoan) : void
+}
+@enduml

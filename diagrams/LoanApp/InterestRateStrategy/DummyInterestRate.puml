@@ -1,0 +1,6 @@
+@startuml
+class DummyInterestRate {
+    + Rate : decimal <<get>> = 0
+}
+IInterestRateStrategy <|-- DummyInterestRate
+@enduml
