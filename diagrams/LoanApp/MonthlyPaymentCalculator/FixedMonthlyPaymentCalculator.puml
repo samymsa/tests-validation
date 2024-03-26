@@ -1,0 +1,6 @@
+@startuml
+class FixedMonthlyPaymentCalculator {
+    + CalculateMonthlyPayment(loan:ILoan) : decimal
+}
+IMonthlyPaymentCalculator <|-- FixedMonthlyPaymentCalculator
+@enduml

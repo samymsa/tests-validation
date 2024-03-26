@@ -1,0 +1,7 @@
+@startuml
+class SpyInterestRate {
+    + RateCalled : bool <<get>>
+    + Rate : decimal <<get>>
+}
+IInterestRateStrategy <|-- SpyInterestRate
+@enduml
