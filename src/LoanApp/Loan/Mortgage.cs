@@ -2,9 +2,11 @@ using LoanApp.InterestRateStrategy;
 
 namespace LoanApp.Loan;
 
-public class Mortgage
+public class Mortgage: ILoan
 {
-    private readonly IInterestRateStrategy RateStrategy;
+    public decimal Principal { get; }
+    public int Term { get; }
+    private IInterestRateStrategy RateStrategy { get; }
     public decimal Rate => RateStrategy.Rate;
     public Mortgage(decimal principal, int term, IInterestRateStrategy rateStrategy)
     {
