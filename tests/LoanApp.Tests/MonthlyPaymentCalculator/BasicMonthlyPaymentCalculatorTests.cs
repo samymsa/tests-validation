@@ -9,6 +9,7 @@ public class BasicMonthlyPaymentCalculatorTests
     public static IEnumerable<object[]> Data =>
     [
         [new Mortgage(200000, 15 * 12, new FixedInterestRate(3.9m)), 1469.37m],
+        [new Mortgage(200000, 15 * 12, new FixedInterestRate(-3.9m)), 815.86m],
         [new Mortgage(200000, 15 * 12, new FixedInterestRate(0.0m)), 1111.11m],
     ];
 
