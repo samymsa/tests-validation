@@ -1,5 +1,6 @@
 @startuml LoanApp
 
+hide empty members
 skinparam linetype ortho
 
 class Program {
@@ -14,6 +15,9 @@ class MortgageParser {
     + ParseArgs(args:string[]) : int
 }
 interface ILoan {
+    + Principal : decimal <<get>>
+    + Term : int <<get>>
+    + Rate : decimal <<get>>
 }
 class Mortgage {
     + Principal : decimal <<get>>
@@ -36,6 +40,7 @@ class DummyInterestRate {
 }
 IInterestRateStrategy <|-- DummyInterestRate
 interface IInterestRateStrategy {
+    + Rate : decimal <<get>>
 }
 class FixedInterestRate {
     + Rate : decimal <<get>>
@@ -46,6 +51,7 @@ class FixedMonthlyPaymentCalculator {
 }
 IMonthlyPaymentCalculator <|-- FixedMonthlyPaymentCalculator
 interface IMonthlyPaymentCalculator {
+    + CalculateMonthlyPayment(loan:ILoan) : decimal
 }
 
 Program ..> Mortgage : <<uses>>
