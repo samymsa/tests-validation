@@ -1,0 +1,74 @@
+@startuml LoanApp
+
+hide empty members
+
+title LoanApp Class Diagram
+
+class Program
+
+class MortgageParser {
+    +int ParseArgs(string[] args)
+}
+
+interface IInterestRateStrategy {
+    +decimal Rate
+}
+
+class FixedInterestRate implements IInterestRateStrategy {
+    +decimal Rate
+}
+
+class VariableInterestRate implements IInterestRateStrategy {
+    +decimal Rate
+}
+
+' User will be able to compute the monthly payment of a loan
+' User will be able to generate a CSV file with the amortization schedule of a loan
+
+interface ILoan {
+    +decimal LoanAmount
+    +int LoanTerm
+    +IInterestRateStrategy InterestRate
+}
+
+class Mortgage implements ILoan {
+    +decimal LoanAmount
+    +int LoanTerm
+    +IInterestRateStrategy InterestRate
+}
+
+interface IMonthlyPaymentCalculator {
+    +decimal CalculateMonthlyPayment(ILoan loan, int month)
+}
+
+class FixedMonthlyPaymentCalculator implements IMonthlyPaymentCalculator {
+    +decimal CalculateMonthlyPayment(ILoan loan, int month)
+}
+
+interface IAmortizationScheduleWriter {
+    +void WriteAmortizationSchedule(ILoan loan, string filePath)
+}
+
+class CsvAmortizationScheduleWriter implements IAmortizationScheduleWriter {
+    +void WriteAmortizationSchedule(ILoan loan, string filePath)
+}
+note top of CsvAmortizationScheduleWriter
+    void WriteAmortizationSchedule(ILoan loan, IMonthlyPaymentCalculator calculator, string filePath)
+        decimal remainingBalance = loan.LoanAmount;
+        for (int month = 0; month < loan.Term; i++) {
+            decimal monthlyPayment = calculator.CalculateMonthlyPayment(loan, month);
+            remainingBalance -= monthlyPayment;
+            writeToFile(month, monthlyPayment, remainingBalance);                      
+        }
+    }
+end note
+
+Program ..> Mortgage
+Program ..> MortgageParser
+Program ..> CsvAmortizationScheduleWriter
+Mortgage ..> IInterestRateStrategy
+CsvAmortizationScheduleWriter ..> ILoan
+CsvAmortizationScheduleWriter ..> IMonthlyPaymentCalculator
+IMonthlyPaymentCalculator ..> ILoan
+
+@enduml
