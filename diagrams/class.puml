@@ -41,7 +41,7 @@ interface IMonthlyPaymentCalculator {
     +decimal CalculateMonthlyPayment(ILoan loan, int month)
 }
 
-class BasicMonthlyPaymentCalculator implements IMonthlyPaymentCalculator {
+class FixedMonthlyPaymentCalculator implements IMonthlyPaymentCalculator {
     +decimal CalculateMonthlyPayment(ILoan loan, int month)
 }
 

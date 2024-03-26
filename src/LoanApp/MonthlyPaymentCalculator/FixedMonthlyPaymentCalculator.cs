@@ -2,7 +2,7 @@ using LoanApp.Loan;
 
 namespace LoanApp.MonthlyPaymentCalculator;
 
-public class BasicMonthlyPaymentCalculator : IMonthlyPaymentCalculator
+public class FixedMonthlyPaymentCalculator : IMonthlyPaymentCalculator
 {
     public decimal CalculateMonthlyPayment(ILoan loan)
     {

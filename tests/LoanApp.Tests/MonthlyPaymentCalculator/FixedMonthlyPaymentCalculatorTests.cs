@@ -4,7 +4,7 @@ using LoanApp.InterestRateStrategy;
 using LoanApp.Loan;
 using LoanApp.MonthlyPaymentCalculator;
 
-public class BasicMonthlyPaymentCalculatorTests
+public class FixedMonthlyPaymentCalculatorTests
 {
     public static IEnumerable<object[]> Data =>
     [
@@ -17,7 +17,7 @@ public class BasicMonthlyPaymentCalculatorTests
     [MemberData(nameof(Data))]
     public void CalculateMonthlyPayment_ReturnsExpectedValue(ILoan loan, decimal expected)
     {
-        BasicMonthlyPaymentCalculator calculator = new();
+        FixedMonthlyPaymentCalculator calculator = new();
         decimal actual = calculator.CalculateMonthlyPayment(loan);
         Assert.Equal(expected, actual, 2);
     }
