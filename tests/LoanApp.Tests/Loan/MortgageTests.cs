@@ -34,6 +34,14 @@ public class MortgageTests
     }
 
     [Fact]
+    public void Mortgage_ValidArguments_SetsProperties()
+    {
+        Mortgage mortgage = new(100000, 108, new DummyInterestRate());
+        Assert.Equal(100000, mortgage.Principal);
+        Assert.Equal(108, mortgage.Term);
+    }
+
+    [Fact]
     public void Rate_FixedInterestRate_ReturnsFixedRate()
     {
         FixedInterestRate rateStrategy = new(3.5m);

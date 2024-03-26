@@ -13,6 +13,8 @@ public class Mortgage: ILoan
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(principal);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(term);
 
+        Principal = principal;
+        Term = term;
         RateStrategy = rateStrategy;
     }
 }
