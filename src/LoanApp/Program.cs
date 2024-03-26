@@ -4,27 +4,39 @@ using LoanApp.Loan;
 using LoanApp.LoanParser;
 using LoanApp.MonthlyPaymentCalculator;
 
-const string DEFAULT_OUTPUT = "amortization.csv";
+namespace LoanApp;
 
-MortgageParser parser = new();
-int exitCode = parser.ParseArgs(args);
-if (exitCode != 0)
+public class Program
 {
-    return exitCode;
-}
+    const string DEFAULT_OUTPUT = "amortization.csv";
 
-Mortgage mortgage = new(parser.Principal, parser.Term, new FixedInterestRate(parser.Rate));
-FixedMonthlyPaymentCalculator calculator = new();
+    public static int Main(string[] args)
+    {
+        MortgageParser parser = new();
+        int exitCode = parser.ParseArgs(args);
+        if (exitCode != 0)
+        {
+            return exitCode;
+        }
 
-try {
-    using TextWriter writer = new StreamWriter(parser.Output ?? DEFAULT_OUTPUT);
-    CsvAmortizationScheduleWriter amortizationScheduleWriter = new(writer, calculator);
-    amortizationScheduleWriter.WriteAmortizationSchedule(mortgage);
-}
-catch (IOException e)
-{
-    Console.Error.WriteLine(e.Message);
-    return 1;
-}
+        Mortgage mortgage = new(parser.Principal, parser.Term, new FixedInterestRate(parser.Rate));
+        return WriteAmortizationSchedule(mortgage, parser.Output);
+    }
 
-return 0;
+    private static int WriteAmortizationSchedule(Mortgage mortgage, string? output)
+    {
+        try
+        {
+            using TextWriter writer = new StreamWriter(output ?? DEFAULT_OUTPUT);
+            FixedMonthlyPaymentCalculator calculator = new();
+            CsvAmortizationScheduleWriter amortizationScheduleWriter = new(writer, calculator);
+            amortizationScheduleWriter.WriteAmortizationSchedule(mortgage);
+        }
+        catch (IOException e)
+        {
+            Console.Error.WriteLine(e.Message);
+            return 1;
+        }
+        return 0;
+    }
+}
