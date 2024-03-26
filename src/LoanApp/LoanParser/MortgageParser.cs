@@ -28,11 +28,16 @@ public class MortgageParser
         IsRequired = true
     };
 
+    private readonly Option<string> OutputOption = new(
+        aliases: ["--output", "-o"],
+        description: "The output file to write the loan details to.");
+
     private readonly RootCommand RootCommand = new("LoanApp");
 
     public decimal Principal { get; private set; }
     public int Term { get; private set; }
     public decimal Rate { get; private set; }
+    public string? Output { get; private set; }
 
     public MortgageParser()
     {
@@ -87,16 +92,18 @@ public class MortgageParser
         RootCommand.AddOption(PrincipalOption);
         RootCommand.AddOption(TermOption);
         RootCommand.AddOption(RateOption);
+        RootCommand.AddOption(OutputOption);
     }
 
     public int ParseArgs(string[] args)
     {
-        RootCommand.SetHandler((decimal principal, int term, decimal rate) =>
+        RootCommand.SetHandler((decimal principal, int term, decimal rate, string? output) =>
         {
             Principal = principal;
             Term = term;
             Rate = rate;
-        }, PrincipalOption, TermOption, RateOption);
+            Output = output;
+        }, PrincipalOption, TermOption, RateOption, OutputOption);
         return RootCommand.Invoke(args);
     }
 }

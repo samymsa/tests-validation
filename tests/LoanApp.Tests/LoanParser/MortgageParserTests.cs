@@ -13,6 +13,7 @@ public class MortgageParserTests
     [InlineData("--principal", "50000", "--term", "108", "--rate", "3.5")]
     [InlineData("--term", "108", "--rate", "3.5", "--principal", "50000")]
     [InlineData("--rate", "3.5", "--principal", "50000", "--term", "108")]
+    [InlineData("--principal", "50000", "--term", "108", "--rate", "3.5", "--output", "output.txt")]
     public void ParseArgs_ValidArgs_ReturnsZero(params string[] args)
     {
         MortgageParser parser = new();
@@ -80,5 +81,21 @@ public class MortgageParserTests
         MortgageParser parser = new();
         int exitCode = parser.ParseArgs(["--help"]);
         Assert.Equal(0, exitCode);
+    }
+
+    [Fact]
+    public void ParseArgs_OutputOption_OutputSet()
+    {
+        MortgageParser parser = new();
+        parser.ParseArgs(["--principal", "50000", "--term", "108", "--rate", "3.5", "--output", "output.txt"]);
+        Assert.Equal("output.txt", parser.Output);
+    }
+
+    [Fact]
+    public void ParseArgs_NoOutputOption_OutputSetToNull()
+    {
+        MortgageParser parser = new();
+        parser.ParseArgs(["--principal", "50000", "--term", "108", "--rate", "3.5"]);
+        Assert.Null(parser.Output);
     }
 }
