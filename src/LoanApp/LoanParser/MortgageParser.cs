@@ -30,9 +30,9 @@ public class MortgageParser
 
     private readonly RootCommand RootCommand = new("LoanApp");
 
-    public decimal? Principal { get; private set; }
-    public int? Term { get; private set; }
-    public decimal? Rate { get; private set; }
+    public decimal Principal { get; private set; }
+    public int Term { get; private set; }
+    public decimal Rate { get; private set; }
 
     public MortgageParser()
     {

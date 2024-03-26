@@ -12,11 +12,8 @@ if (exitCode != 0)
 {
     return exitCode;
 }
-decimal principal = parser.Principal ?? throw new ArgumentException("Principal must not be null");
-int term = parser.Term ?? throw new ArgumentException("Term must not be null");
-decimal rate = parser.Rate ?? throw new ArgumentException("Rate must not be null");
 
-Mortgage mortgage = new(principal, term, new FixedInterestRate(rate));
+Mortgage mortgage = new(parser.Principal, parser.Term, new FixedInterestRate(parser.Rate));
 FixedMonthlyPaymentCalculator calculator = new();
 using (TextWriter writer = new StreamWriter(OUTPUT_FILE))
 {
