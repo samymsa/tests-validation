@@ -4,6 +4,11 @@ using LoanApp.LoanParser;
 
 public class MortgageParserTests
 {
+    public MortgageParserTests()
+    {
+        Console.SetOut(new StringWriter());
+    }
+    
     [Theory]
     [InlineData("--principal", "50000", "--term", "108", "--rate", "3.5")]
     [InlineData("--term", "108", "--rate", "3.5", "--principal", "50000")]
