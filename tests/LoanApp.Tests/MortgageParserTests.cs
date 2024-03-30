@@ -1,6 +1,4 @@
-namespace LoanApp.Tests.LoanParser;
-
-using LoanApp.LoanParser;
+namespace LoanApp.Tests;
 
 public class MortgageParserTests : IDisposable
 {

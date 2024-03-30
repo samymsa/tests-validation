@@ -1,4 +1,4 @@
-namespace LoanApp.LoanParser;
+namespace LoanApp;
 
 using System.CommandLine;
 

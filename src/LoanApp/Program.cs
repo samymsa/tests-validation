@@ -1,10 +1,4 @@
-﻿using LoanApp.AmortizationScheduleWriter;
-using LoanApp.InterestRateStrategy;
-using LoanApp.Loan;
-using LoanApp.LoanParser;
-using LoanApp.MonthlyPaymentCalculator;
-
-namespace LoanApp;
+﻿namespace LoanApp;
 
 public class Program
 {
@@ -19,7 +13,7 @@ public class Program
             return exitCode;
         }
 
-        Mortgage mortgage = new(parser.Principal, parser.Term, new FixedInterestRate(parser.Rate));
+        Mortgage mortgage = new(parser.Principal, parser.Term, parser.Rate);
         return WriteAmortizationSchedule(mortgage, parser.Output);
     }
 
@@ -28,7 +22,7 @@ public class Program
         try
         {
             using TextWriter writer = new StreamWriter(output ?? DEFAULT_OUTPUT);
-            FixedMonthlyPaymentCalculator calculator = new();
+            MonthlyPaymentCalculator calculator = new();
             CsvAmortizationScheduleWriter amortizationScheduleWriter = new(writer, calculator);
             amortizationScheduleWriter.WriteAmortizationSchedule(mortgage);
         }
