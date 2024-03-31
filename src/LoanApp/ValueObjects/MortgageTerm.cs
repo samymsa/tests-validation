@@ -5,13 +5,13 @@ public class MortgageTerm
     private const int MIN_VALUE = 108;
     private const int MAX_VALUE = 300;
     public int Value { get; }
-    public MortgageTerm(int term)
+    public MortgageTerm(int termInMonths)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(term, MIN_VALUE);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(term, MAX_VALUE);
-        Value = term;
+        ArgumentOutOfRangeException.ThrowIfLessThan(termInMonths, MIN_VALUE);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(termInMonths, MAX_VALUE);
+        Value = termInMonths;
     }
 
-    public static implicit operator int(MortgageTerm term) => term.Value;
-    public static implicit operator MortgageTerm(int term) => new(term);
+    public static implicit operator int(MortgageTerm termInMonths) => termInMonths.Value;
+    public static implicit operator MortgageTerm(int termInMonths) => new(termInMonths);
 }
