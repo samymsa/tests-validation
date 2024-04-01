@@ -13,4 +13,9 @@ public class MortgageCalculator
         }
         return principal * monthlyRate / (1 - (decimal)Math.Pow(1 + (double)monthlyRate, -term));
     }
+
+    public static decimal CalculateTotalCost(MortgagePrincipal principal, MortgageTerm term, decimal rate)
+    {
+        return CalculateMonthlyPayment(principal, term, rate) * term;
+    }
 }
