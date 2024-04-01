@@ -18,6 +18,31 @@ public class MortgageCalculatorTests
             [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, 426790.18]
         ];
 
+    public static IEnumerable<object[]> AmortizationScheduleData =>
+        [
+            [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, new List<(int, decimal, decimal)>
+                {
+                    (1, 819.37m, 199180.63m),
+                    (2, 822.04m, 198358.59m),
+                    (3, 824.71m, 197533.88m)
+                }
+            ],
+            [new MortgagePrincipal(100000), new MortgageTerm(10 * 12), 4.5m, new List<(int, decimal, decimal)>
+                {
+                    (1, 661.38m, 99338.62m),
+                    (2, 663.86m, 98674.75m),
+                    (3, 666.35m, 98008.40m)
+                }
+            ],
+            [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, new List<(int, decimal, decimal)>
+                {
+                    (1, 672.63m, 299327.37m),
+                    (2, 674.32m, 298653.05m),
+                    (3, 676.00m, 297977.05m)
+                }
+            ]
+        ];
+
     [Theory]
     [MemberData(nameof(MonthlyPaymentData))]
     public void CalculateMonthlyPayment_ReturnsExpectedValue(MortgagePrincipal principal, MortgageTerm term, decimal rate, decimal expected)
@@ -32,5 +57,16 @@ public class MortgageCalculatorTests
     {
         decimal actual = MortgageCalculator.CalculateTotalCost(principal, term, rate);
         Assert.Equal(expected, actual, 2);
+    }
+
+    [Theory]
+    [MemberData(nameof(AmortizationScheduleData))]
+    public void CalculateAmortizationSchedule_ReturnsExpectedValue(MortgagePrincipal principal, MortgageTerm term, decimal rate, List<(int, decimal, decimal)> expected)
+    {
+        var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
+        var actualFirstThree = actual.Take(3);
+
+        Assert.Equal<int>(term, actual.Count());
+        Assert.Equal(expected, actualFirstThree);
     }
 }

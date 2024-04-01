@@ -18,4 +18,17 @@ public class MortgageCalculator
     {
         return CalculateMonthlyPayment(principal, term, rate) * term;
     }
+
+    public static IEnumerable<(int month, decimal principalPaid, decimal remainingPrincipal)> CalculateAmortizationSchedule(MortgagePrincipal principal, MortgageTerm term, decimal rate)
+    {
+        decimal monthlyPayment = CalculateMonthlyPayment(principal, term, rate);
+        decimal remainingPrincipal = principal;
+        for (int i = 1; i <= term; i++)
+        {
+            decimal interest = remainingPrincipal * rate / 100 / 12;
+            decimal principalPaid = monthlyPayment - interest;
+            remainingPrincipal -= principalPaid;
+            yield return (i, Math.Round(principalPaid, 2), Math.Round(remainingPrincipal, 2));
+        }
+    }
 }
