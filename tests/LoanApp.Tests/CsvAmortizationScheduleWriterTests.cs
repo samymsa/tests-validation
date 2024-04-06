@@ -53,10 +53,9 @@ public class CsvAmortizationScheduleWriterTests
 
         string[] lines = sb.ToString().Split(Environment.NewLine);
         var schedule = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
-        for (int i = 0; i < schedule.Count(); i++)
+        foreach (var (month, principalPaid, remainingPrincipal) in schedule)
         {
-            var (month, principalPaid, remainingPrincipal) = schedule.ElementAt(i);
-            Assert.Equal($"{month},{principalPaid:F2},{remainingPrincipal:F2}", lines[i + 2]);
+            Assert.Equal($"{month},{principalPaid:F2},{remainingPrincipal:F2}", lines[month + 1]);
         }
     }
 }
