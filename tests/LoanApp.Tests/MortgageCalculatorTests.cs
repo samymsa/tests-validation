@@ -112,4 +112,13 @@ public class MortgageCalculatorTests
         var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
         Assert.Equal(term.Value, actual.Count());
     }
+
+    [Theory]
+    [MemberData(nameof(MortgageData))]
+    public void CalculateAmortizationSchedule_SumsToPrincipal(MortgagePrincipal principal, MortgageTerm term, decimal rate)
+    {
+        var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
+        decimal sum = actual.Sum(x => x.principalPaid);
+        Assert.Equal(principal.Value, sum, 2);
+    }
 }
