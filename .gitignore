@@ -45,5 +45,5 @@ msbuild.wrn
 # See https://github.com/microsoft/vscode-dotnettools/issues/930
 .mono
 
-# Saved games
-saves/
+# Program output
+output/
