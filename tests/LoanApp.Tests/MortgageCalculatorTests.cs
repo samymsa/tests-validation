@@ -91,8 +91,8 @@ public class MortgageCalculatorTests
     {
         var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
         var actualStartValues = actual.Take(expected.Count);
-
-        Assert.Equal(expected, actualStartValues);
+        var roundedActualStartValues = actualStartValues.Select(t => (t.month, Math.Round(t.principalPaid, 2), Math.Round(t.remainingPrincipal, 2)));
+        Assert.Equal(expected, roundedActualStartValues);
     }
 
     [Theory]
@@ -101,8 +101,8 @@ public class MortgageCalculatorTests
     {
         var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
         var actualEndValues = actual.Skip(actual.Count() - expected.Count);
-
-        Assert.Equal(expected, actualEndValues);
+        var roundedActualEndValues = actualEndValues.Select(t => (t.month, Math.Round(t.principalPaid, 2), Math.Round(t.remainingPrincipal, 2)));
+        Assert.Equal(expected, roundedActualEndValues);
     }
 
     [Theory]

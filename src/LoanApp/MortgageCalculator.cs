@@ -28,7 +28,7 @@ public class MortgageCalculator
             decimal interest = remainingPrincipal * rate / 100 / 12;
             decimal principalPaid = monthlyPayment - interest;
             remainingPrincipal -= principalPaid;
-            yield return (i, Math.Round(principalPaid, 2), Math.Round(remainingPrincipal, 2));
+            yield return (i, principalPaid, remainingPrincipal);
         }
     }
 }
