@@ -1,0 +1,5 @@
+@startuml
+class CsvAmortizationScheduleWriter {
+    + WriteAmortizationSchedule(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : void
+}
+@enduml

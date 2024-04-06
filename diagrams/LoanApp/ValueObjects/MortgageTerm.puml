@@ -1,0 +1,6 @@
+@startuml
+class MortgageTerm {
+    + Value : int <<get>>
+    + MortgageTerm(termInMonths:int)
+}
+@enduml

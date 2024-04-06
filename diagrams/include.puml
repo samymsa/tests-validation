@@ -1,68 +1,25 @@
-@startuml LoanApp
-
-hide empty members
-skinparam linetype ortho
-
-class Program {
-    + {static} Main(args:string[]) : int
+@startuml
+class CsvAmortizationScheduleWriter {
+    + WriteAmortizationSchedule(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : void
 }
 class MortgageParser {
-    + Principal : decimal <<get>>
-    + Term : int <<get>>
+    + {static} <<readonly>> ARGS_COUNT : int = 3
     + Rate : decimal <<get>>
-    + Output : string? <<get>>
-    + MortgageParser()
-    + ParseArgs(args:string[]) : int
+    + MortgageParser(args:string[])
 }
-interface ILoan {
-    + Principal : decimal <<get>>
-    + Term : int <<get>>
-    + Rate : decimal <<get>>
+MortgageParser --> "Principal" MortgagePrincipal
+MortgageParser --> "Term" MortgageTerm
+class MortgageCalculator {
+    + {static} CalculateMonthlyPayment(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : decimal
+    + {static} CalculateTotalCost(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : decimal
+    + {static} CalculateAmortizationSchedule(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : IEnumerable<(int month, decimal principalPaid, decimal remainingPrincipal)>
 }
-class Mortgage {
-    + Principal : decimal <<get>>
-    + Term : int <<get>>
-    + Rate : decimal <<get>>
-    + Mortgage(principal:decimal, term:int, rateStrategy:IInterestRateStrategy)
+class MortgageTerm {
+    + Value : int <<get>>
+    + MortgageTerm(termInMonths:int)
 }
-ILoan <|-- Mortgage
-class CsvAmortizationScheduleWriter {
-    + CsvAmortizationScheduleWriter(writer:TextWriter, calculator:IMonthlyPaymentCalculator)
-    + WriteAmortizationSchedule(loan:ILoan) : void
+class MortgagePrincipal {
+    + Value : decimal <<get>>
+    + MortgagePrincipal(principal:decimal)
 }
-class SpyInterestRate {
-    + RateCalled : bool <<get>>
-    + Rate : decimal <<get>>
-}
-IInterestRateStrategy <|-- SpyInterestRate
-class DummyInterestRate {
-    + Rate : decimal <<get>> = 0
-}
-IInterestRateStrategy <|-- DummyInterestRate
-interface IInterestRateStrategy {
-    + Rate : decimal <<get>>
-}
-class FixedInterestRate {
-    + Rate : decimal <<get>>
-}
-IInterestRateStrategy <|-- FixedInterestRate
-class FixedMonthlyPaymentCalculator {
-    + CalculateMonthlyPayment(loan:ILoan) : decimal
-}
-IMonthlyPaymentCalculator <|-- FixedMonthlyPaymentCalculator
-interface IMonthlyPaymentCalculator {
-    + CalculateMonthlyPayment(loan:ILoan) : decimal
-}
-
-Program ..> Mortgage : <<uses>>
-Program ..> MortgageParser : <<uses>>
-Program ..> CsvAmortizationScheduleWriter : <<uses>>
-
-Mortgage ..> IInterestRateStrategy : <<uses>>
-
-CsvAmortizationScheduleWriter ..> IMonthlyPaymentCalculator : <<uses>>
-CsvAmortizationScheduleWriter ..> ILoan : <<uses>>
-
-FixedMonthlyPaymentCalculator ..> ILoan : <<uses>>
-
 @enduml
