@@ -4,6 +4,13 @@ namespace LoanApp.Tests;
 
 public class MortgageCalculatorTests
 {
+    public static IEnumerable<object[]> MortgageData =>
+        [
+            [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m],
+            [new MortgagePrincipal(100000), new MortgageTerm(10 * 12), 4.5m],
+            [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m]
+        ];
+
     public static IEnumerable<object[]> MonthlyPaymentData =>
         [
             [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, 1469.37m],
@@ -18,7 +25,7 @@ public class MortgageCalculatorTests
             [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, 426790.18]
         ];
 
-    public static IEnumerable<object[]> AmortizationScheduleData =>
+    public static IEnumerable<object[]> AmortizationScheduleStartData =>
         [
             [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, new List<(int, decimal, decimal)>
                 {
@@ -43,6 +50,25 @@ public class MortgageCalculatorTests
             ]
         ];
 
+    public static IEnumerable<object[]> AmortizationScheduleEndData =>
+        [
+            [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, new List<(int, decimal, decimal)>
+                {
+                    (180, 1464.61m, 0.00m)
+                }
+            ],
+            [new MortgagePrincipal(100000), new MortgageTerm(10 * 12), 4.5m, new List<(int, decimal, decimal)>
+                {
+                    (120, 1032.51m, 0.00m)
+                }
+            ],
+            [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, new List<(int, decimal, decimal)>
+                {
+                    (300, 1419.09m, 0.00m)
+                }
+            ]
+        ];
+
     [Theory]
     [MemberData(nameof(MonthlyPaymentData))]
     public void CalculateMonthlyPayment_ReturnsExpectedValue(MortgagePrincipal principal, MortgageTerm term, decimal rate, decimal expected)
@@ -60,13 +86,30 @@ public class MortgageCalculatorTests
     }
 
     [Theory]
-    [MemberData(nameof(AmortizationScheduleData))]
-    public void CalculateAmortizationSchedule_ReturnsExpectedValue(MortgagePrincipal principal, MortgageTerm term, decimal rate, List<(int, decimal, decimal)> expected)
+    [MemberData(nameof(AmortizationScheduleStartData))]
+    public void CalculateAmortizationSchedule_ReturnsExpectedStartValues(MortgagePrincipal principal, MortgageTerm term, decimal rate, List<(int, decimal, decimal)> expected)
     {
         var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
-        var actualFirstThree = actual.Take(3);
+        var actualStartValues = actual.Take(expected.Count);
 
-        Assert.Equal<int>(term, actual.Count());
-        Assert.Equal(expected, actualFirstThree);
+        Assert.Equal(expected, actualStartValues);
+    }
+
+    [Theory]
+    [MemberData(nameof(AmortizationScheduleEndData))]
+    public void CalculateAmortizationSchedule_ReturnsExpectedEndValues(MortgagePrincipal principal, MortgageTerm term, decimal rate, List<(int, decimal, decimal)> expected)
+    {
+        var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
+        var actualEndValues = actual.Skip(actual.Count() - expected.Count);
+
+        Assert.Equal(expected, actualEndValues);
+    }
+
+    [Theory]
+    [MemberData(nameof(MortgageData))]
+    public void CalculateAmortizationSchedule_ReturnsTermLengthValues(MortgagePrincipal principal, MortgageTerm term, decimal rate)
+    {
+        var actual = MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate);
+        Assert.Equal(term.Value, actual.Count());
     }
 }

@@ -56,7 +56,7 @@ public class CsvAmortizationScheduleWriterTests
         for (int i = 0; i < schedule.Count(); i++)
         {
             var (month, principalPaid, remainingPrincipal) = schedule.ElementAt(i);
-            Assert.Equal($"{i + 1},{principalPaid:F2},{remainingPrincipal:F2}", lines[i + 2]);
+            Assert.Equal($"{month},{principalPaid:F2},{remainingPrincipal:F2}", lines[i + 2]);
         }
     }
 }
