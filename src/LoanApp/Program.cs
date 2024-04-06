@@ -1,36 +1,27 @@
-﻿namespace LoanApp;
+﻿using LoanApp;
+using LoanApp.ValueObjects;
 
-public class Program
+const string USAGE = $"Usage: dotnet run <principal> <termInMonths> <rate>";
+
+if (args.Length != 3)
 {
-    const string DEFAULT_OUTPUT = "amortization.csv";
+    Console.WriteLine(USAGE);
+    return;
+}
 
-    public static int Main(string[] args)
-    {
-        MortgageParser parser = new();
-        int exitCode = parser.ParseArgs(args);
-        if (exitCode != 0)
-        {
-            return exitCode;
-        }
+try
+{
+    MortgagePrincipal principal = new(decimal.Parse(args[0]));
+    MortgageTerm term = new(int.Parse(args[1]));
+    decimal rate = decimal.Parse(args[2]);
+    string outputFile = $"output/amortization_schedule_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.csv";
 
-        Mortgage mortgage = new(parser.Principal, parser.Term, parser.Rate);
-        return WriteAmortizationSchedule(mortgage, parser.Output);
-    }
-
-    private static int WriteAmortizationSchedule(Mortgage mortgage, string? output)
-    {
-        try
-        {
-            using TextWriter writer = new StreamWriter(output ?? DEFAULT_OUTPUT);
-            MonthlyPaymentCalculator calculator = new();
-            CsvAmortizationScheduleWriter amortizationScheduleWriter = new(writer, calculator);
-            amortizationScheduleWriter.WriteAmortizationSchedule(mortgage);
-        }
-        catch (IOException e)
-        {
-            Console.Error.WriteLine(e.Message);
-            return 1;
-        }
-        return 0;
-    }
+    using TextWriter writer = new StreamWriter(outputFile);
+    CsvAmortizationScheduleWriter amortizationScheduleWriter = new(writer);
+    amortizationScheduleWriter.WriteAmortizationSchedule(principal, term, rate);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+    Console.WriteLine(USAGE);
 }
