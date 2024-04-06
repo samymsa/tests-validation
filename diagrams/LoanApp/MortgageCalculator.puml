@@ -1,0 +1,7 @@
+@startuml
+class MortgageCalculator {
+    + {static} CalculateMonthlyPayment(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : decimal
+    + {static} CalculateTotalCost(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : decimal
+    + {static} CalculateAmortizationSchedule(principal:MortgagePrincipal, term:MortgageTerm, rate:decimal) : IEnumerable<(int month, decimal principalPaid, decimal remainingPrincipal)>
+}
+@enduml

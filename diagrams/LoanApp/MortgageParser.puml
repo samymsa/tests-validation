@@ -1,0 +1,9 @@
+@startuml
+class MortgageParser {
+    + {static} <<readonly>> ARGS_COUNT : int = 3
+    + Rate : decimal <<get>>
+    + MortgageParser(args:string[])
+}
+MortgageParser --> "Principal" MortgagePrincipal
+MortgageParser --> "Term" MortgageTerm
+@enduml

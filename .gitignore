@@ -37,7 +37,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-[Oo]ut/
+[Oo]ut/*
 msbuild.log
 msbuild.err
 msbuild.wrn
@@ -45,5 +45,5 @@ msbuild.wrn
 # See https://github.com/microsoft/vscode-dotnettools/issues/930
 .mono
 
-# Program output
-output/
+# Gitkeep
+!.gitkeep

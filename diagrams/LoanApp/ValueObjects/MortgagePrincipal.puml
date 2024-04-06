@@ -1,0 +1,6 @@
+@startuml
+class MortgagePrincipal {
+    + Value : decimal <<get>>
+    + MortgagePrincipal(principal:decimal)
+}
+@enduml
