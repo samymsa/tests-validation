@@ -1,23 +1,19 @@
+using LoanApp.ValueObjects;
+
 namespace LoanApp;
 
-public class CsvAmortizationScheduleWriter(TextWriter writer, MonthlyPaymentCalculator calculator)
+public class CsvAmortizationScheduleWriter(TextWriter writer)
 {
     private TextWriter Writer { get; } = writer;
-    private MonthlyPaymentCalculator Calculator { get; } = calculator;
 
-    public void WriteAmortizationSchedule(Mortgage mortgage)
+    public void WriteAmortizationSchedule(MortgagePrincipal principal, MortgageTerm term, decimal rate)
     {
-        decimal monthlyPayment = Calculator.CalculateMonthlyPayment(mortgage);
-        decimal balance = monthlyPayment * mortgage.Term;
-        decimal cumulativePayment = 0;
-        Writer.WriteLine("Month,Cumulative Payment,Balance");
-        for (int i = 1; i <= mortgage.Term; i++)
+        decimal totalCost = MortgageCalculator.CalculateTotalCost(principal, term, rate);
+        Writer.WriteLine($"Total mortgage cost: {totalCost:F2}");
+        Writer.WriteLine("Month,Principal,Balance");
+        foreach (var (month, principalPaid, remainingPrincipal) in MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate))
         {
-            balance -= monthlyPayment;
-            cumulativePayment += monthlyPayment;
-            decimal roundedBalance = Math.Round(balance, 2);
-            decimal roundedCumulativePayment = Math.Round(cumulativePayment, 2);
-            Writer.WriteLine($"{i},{roundedCumulativePayment:F2},{roundedBalance:F2}");
+            Writer.WriteLine($"{month},{principalPaid:F2},{remainingPrincipal:F2}");
         }
     }
 }
