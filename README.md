@@ -1,3 +1,3 @@
-# Séance 3 : Tests unitaires sur le crédit immobilier
+# Séance 4 : Tests unitaires sur le crédit immobilier (partie 2)
 
 ![](diagrams/include.png)
