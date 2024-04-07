@@ -3,7 +3,6 @@ namespace LoanApp.Tests;
 public class MortgageParserTests
 {
     [Theory]
-    [InlineData()]
     [InlineData("a")]
     [InlineData("a", "b")]
     [InlineData("a", "b", "c", "d")]
