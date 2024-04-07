@@ -9,7 +9,7 @@ public class CsvAmortizationScheduleWriter(TextWriter writer)
     public void WriteAmortizationSchedule(MortgagePrincipal principal, MortgageTerm term, decimal rate)
     {
         decimal totalCost = MortgageCalculator.CalculateTotalCost(principal, term, rate);
-        Writer.WriteLine($"Total mortgage cost: {totalCost:F2}");
+        Writer.WriteLine($"Total cost,{totalCost:F2}");
         Writer.WriteLine("Month,Principal,Balance");
         foreach (var (month, principalPaid, remainingPrincipal) in MortgageCalculator.CalculateAmortizationSchedule(principal, term, rate))
         {
