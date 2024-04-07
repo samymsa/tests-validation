@@ -24,7 +24,7 @@ public class CsvAmortizationScheduleWriterTests
 
         string[] lines = sb.ToString().Split(Environment.NewLine);
         decimal totalCost = MortgageCalculator.CalculateTotalCost(principal, term, rate);
-        Assert.Equal($"Total mortgage cost: {totalCost:F2}", lines[0]);
+        Assert.Equal($"Total cost,{totalCost:F2}", lines[0]);
     }
 
     [Theory]

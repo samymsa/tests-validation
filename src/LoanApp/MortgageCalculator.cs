@@ -16,7 +16,7 @@ public class MortgageCalculator
 
     public static decimal CalculateTotalCost(MortgagePrincipal principal, MortgageTerm term, decimal rate)
     {
-        return CalculateMonthlyPayment(principal, term, rate) * term;
+        return CalculateMonthlyPayment(principal, term, rate) * term - principal;
     }
 
     public static IEnumerable<(int month, decimal principalPaid, decimal remainingPrincipal)> CalculateAmortizationSchedule(MortgagePrincipal principal, MortgageTerm term, decimal rate)
