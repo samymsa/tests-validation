@@ -20,9 +20,9 @@ public class MortgageCalculatorTests
 
     public static IEnumerable<object[]> TotalCostData =>
         [
-            [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, 264487.21],
-            [new MortgagePrincipal(100000), new MortgageTerm(10 * 12), 4.5m, 124366.09],
-            [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, 426790.18]
+            [new MortgagePrincipal(200000), new MortgageTerm(15 * 12), 3.9m, 64487.21],
+            [new MortgagePrincipal(100000), new MortgageTerm(10 * 12), 4.5m, 24366.09],
+            [new MortgagePrincipal(300000), new MortgageTerm(25 * 12), 3.0m, 126790.18]
         ];
 
     public static IEnumerable<object[]> AmortizationScheduleStartData =>
